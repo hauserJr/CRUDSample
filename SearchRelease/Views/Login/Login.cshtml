@@ -1,0 +1,18 @@
+﻿
+<div class="container mt-3">
+    @using (Html.BeginForm("Check", "Login", new { ReturnUrl = "" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="mx-auto row form-group">
+            <label class="mr-4" for="Account">帳號</label>
+            <input type="text" class="form-control col-lg-4" id="Account" name="Account" placeholder="請輸入帳號">
+        </div>
+        <div class="mx-auto row form-group">
+            <label class="mr-4" for="Pwd">密碼</label>
+            <input type="password" class="form-control col-lg-4" id="Pwd" name="Pwd" placeholder="請輸入密碼">
+        </div>
+
+        <button type="submit" class="btn-danger pull-left"><i class="fa fa-sign-in"></i>登入</button>
+    }
+</div>

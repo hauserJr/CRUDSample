@@ -24,8 +24,9 @@ namespace SearchRelease
             // 在 Cookie 中設定簽章
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
+                AuthenticationType = "Ksu",
+                LoginPath = new PathString("/Login/Login"),
+                ExpireTimeSpan = TimeSpan.FromMinutes(60),
                 Provider = new CookieAuthenticationProvider
                 {
                     // 讓應用程式在使用者登入時驗證安全性戳記。

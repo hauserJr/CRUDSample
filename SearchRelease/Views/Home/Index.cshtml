@@ -1,31 +1,256 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@*@model List<SearchAlpha.Models.Product>*@
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<form onsubmit="return false" class="form-inline">
+    <div class="form-group col-12">
+        <label class="pull-left mr-2 mt-1" for="PNum">請輸入品號</label>
+        <input type="text" class="form-control mt-1 mr-1" id="PNum">
+
+        <div class="mt-1">
+            <button type="submit" class="btn btn-outline-primary" onclick="SelectData()">查詢</button>
+            <button type="submit" class="ml-1 btn btn-outline-info" data-toggle="modal" data-target="#CreateModal">新增</button>
+        </div>
+    </div>
+</form>
+
+<div id="container" class="mt-3">
+
+    <table class="table">
+        <caption>物料查詢</caption>
+        <thead>
+            <tr>
+                <th scope="col">品號</th>
+                <th scope="col">儲位</th>
+                <th scope="col">廠商</th>
+                <th scope="col">動作</th>
+            </tr>
+        </thead>
+        <tbody id="ITable">
+            @*@{
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.ProductArea</td>
+                            <td>@item.CompanyName</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm mr-1" onclick="del(@item.id)">刪除</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick="SetEditData(@item.id,@item.ProductName,@item.ProductArea,@item.CompanyName)">編輯</button>
+                            </td>
+                        </tr>
+                    }
+                }*@
+
+        </tbody>
+    </table>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditLabel" aria-hidden="true">
+    <div class="modal-dialog col-lg-6" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditLabel">編輯</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="form1">
+                <div class="modal-body">
+                    <input type="text" name="id" id="id" hidden />
+                    <label class="pull-left mr-2 mt-1" for="ProductName">品號</label>
+                    <input type="text" class="form-control mt-1 mr-1" id="ProductName" name="ProductName">
+                    <label class="pull-left mr-2 mt-1" for="ProductArea">儲位</label>
+                    <input type="text" class="form-control mt-1 mr-1" id="ProductArea" name="ProductArea">
+                    <label class="pull-left mr-2 mt-1" for="CompanyName">廠商</label>
+                    <input type="text" class="form-control mt-1 mr-1" id="CompanyName" name="CompanyName">
+                </div>
+                <div class="modal-footer pull-left">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" onclick="SaveEdit()">修改</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">新增</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="form2">
+                <div class="modal-body">
+                    <label class="pull-left mr-2 mt-1" for="ProductName">品號</label>
+                    <input type="text" class="form-control mt-1 mr-1" id="ProductName" name="ProductName">
+                    <label class="pull-left mr-2 mt-1" for="ProductArea">儲位</label>
+                    <input type="text" class="form-control mt-1 mr-1" id="ProductArea" name="ProductArea">
+                    <label class="pull-left mr-2 mt-1" for="CompanyName">廠商</label>
+                    <input type="text" class="form-control mt-1 mr-1" id="CompanyName" name="CompanyName">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" onclick="SaveData()">新增</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="DelModal" tabindex="-1" role="dialog" aria-labelledby="DelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DelModalLabel">新增</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="form3">
+                <div class="modal-body">
+                    <label class="pull-left mr-2 mt-1" for="ProductName">輸入密碼</label>
+                    <input type="password" class="form-control col-lg-4" id="Pwd" name="Pwd" placeholder="請輸入密碼">
+                    <input type="text" class="form-control col-lg-4" id="DId" name="DId" hidden/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" onclick="SureDel()">確認刪除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function SelectData() {
+        $.ajax({
+            url: 'SelectData',
+            data: {
+                id: $('#PNum').val()
+            },
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                $('#ITable').empty();
+                var tag;
+                for (var x = 0; x < data.length; x++) {
+                    var datacontent = data[x].id + "," + data[x].ProductName + "," + data[x].ProductArea + "," + data[x].CompanyName;
+                    tag += "<tr>";
+                    tag += "<td>" + data[x].ProductName + "</td>";
+                    tag += "<td>" + data[x].ProductArea + "</td>";
+                    tag += "<td>" + data[x].CompanyName + "</td>";
+                    tag += "<td>" + "<button type='button' class='btn btn-primary btn-sm mr-1' onclick='delModal(" + data[x].id + ")'>刪除</button>"
+                        + "<button type='button' class='btn btn-info btn-sm' onclick='SetEditData(" + data[x].id+")'>編輯</button>"
+                        +"</td>";
+                    tag += "</tr>";
+                }
+                $('#ITable').html(tag);
+            }
+        });
+    }
+
+    function del(i) {
+        if (confirm("確認要刪除嗎？")) {
+            $.ajax({
+                url: 'Del',
+                data: {
+                    id: i
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "200") {
+                        location.reload();
+                    }
+                    else {
+                        alert('發生錯誤');
+                    }
+                }
+            });
+        }
+    }
+
+    function SaveData(i) {
+        $.ajax({
+            url: 'Create',
+            data: $('#form2').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data == "200") {
+                    location.reload();
+                }
+                else {
+                    alert('發生錯誤');
+                }
+            }
+        });
+    }
+
+    function SetEditData(i) {
+        $.ajax({
+            url: 'SingleData',
+            data: {
+                id: i
+            },
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                console.log(data.length);
+                    $('#id').val(data[0].id);
+                    $('#ProductName').val(data[0].ProductName);
+                    $('#ProductArea').val(data[0].ProductArea);
+                    $('#CompanyName').val(data[0].CompanyName);
+                    $('#EditModal').modal('show');
+
+            }
+        });
+
+    }
+    function SaveEdit() {
+        $.ajax({
+            url: 'SaveEdit',
+            data: $('#form1').serialize(),
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data == "200") {
+                    location.reload();
+                }
+                else {
+                    alert('發生錯誤');
+                }
+            }
+        });
+
+    }
+
+    function delModal(i) {
+        $('#DId').val(i);
+        $('#DelModal').modal('show');
+    }
+
+    function SureDel() {
+        if (confirm("確認要刪除嗎？")) {
+            $.ajax({
+                url: 'Del',
+                data: {
+                    id: $('#DId').val()
+                    ,Pwd: $('#Pwd').val()
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "200") {
+                        location.reload();
+                    }
+                    else {
+                        alert('發生錯誤');
+                    }
+                }
+            });
+        }
+    }
+</script>
