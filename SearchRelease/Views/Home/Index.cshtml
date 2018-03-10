@@ -13,8 +13,7 @@
 </form>
 
 <div id="container" class="mt-3">
-
-    <table class="table">
+    <table class="table table-responsive">
         <caption>物料查詢</caption>
         <thead>
             <tr>
@@ -25,21 +24,6 @@
             </tr>
         </thead>
         <tbody id="ITable">
-            @*@{
-                    foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.ProductName</td>
-                            <td>@item.ProductArea</td>
-                            <td>@item.CompanyName</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm mr-1" onclick="del(@item.id)">刪除</button>
-                                <button type="button" class="btn btn-info btn-sm" onclick="SetEditData(@item.id,@item.ProductName,@item.ProductArea,@item.CompanyName)">編輯</button>
-                            </td>
-                        </tr>
-                    }
-                }*@
-
         </tbody>
     </table>
 </div>
@@ -112,7 +96,7 @@
             </div>
             <form id="form3">
                 <div class="modal-body">
-                    <label class="pull-left mr-2 mt-1" for="ProductName">輸入密碼</label>
+                    <label class="pull-left mr-2 mt-1" for="Pwd">輸入密碼</label>
                     <input type="password" class="form-control col-lg-4" id="Pwd" name="Pwd" placeholder="請輸入密碼">
                     <input type="text" class="form-control col-lg-4" id="DId" name="DId" hidden/>
                 </div>
